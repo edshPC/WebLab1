@@ -2,10 +2,218 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Titlee</title>
+    <title>WebLab1</title>
+    <script src="https://www.desmos.com/api/v1.8/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
+    <style>
+        * {
+            margin: 0;
+            border: 0;
+            padding: 0;
+            outline: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: sans-serif;
+            display: block;
+        }
+
+        .fill {
+            width: 100%;
+        }
+
+        .container {
+            margin-left: 0.0em;
+            display: flex;
+            gap: 10px;
+            padding: 0 4px;
+            justify-content: space-between;
+        }
+
+        .toright {
+            text-align: right;
+        }
+        .toleft {
+            text-align: left;
+        }
+
+        button {
+            background-color: #BABABA;
+            padding: 2px;
+            border: 2px solid;
+        }
+        button:hover {
+            border-color: grey;
+        }
+
+        .x-button {
+            width: 25px;
+            height: 25px;
+            position: relative;
+        }
+
+        .x-button:active {
+            background-color: yellow;
+        }
+
+        .selected {
+            background-color: greenyellow;
+        }
+
+        .red-border {
+            border: 2px solid red;
+            /*background-color: red;*/
+        }
+
+        .rounded {
+            border-radius: 0.4em;
+        }
+
+        #header {
+            font-family: cursive;
+            color: blue;
+            font-size: 16px;
+        }
+
+        #graph {
+            width: 400px;
+            height: 400px;
+        }
+
+        #result-table {
+            display: block;
+            border: 1px solid;
+            max-height: 400px;
+            overflow-y: scroll;
+        }
+        #result-table tr td {
+            padding: 0 10px;
+        }
+
+        .input-cell-l {
+            padding: 10px;
+        }
+
+    </style>
 </head>
 <body>
-<h1>2</h1>
 
+<table>
+    <tr>
+        <td class="" id="header">
+            <p>Лабораторная работа #1</p>
+            <p>Выполнил Щербинин Эдуард P3214</p>
+            <p>Вариант 2482</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table id="input-table">
+                <tr>
+                    <td colspan="2" class="input-cell-l">Введи значения:</td>
+                </tr>
+                <tr>
+                    <td class="input-cell-l">X:</td>
+                    <td id="x-cell">
+                        <table id="x-table" class="">
+                        <tr>
+                            <td>
+                                <button class="x-button rounded">-5</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">-4</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">-3</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="button">
+                                <button class="x-button rounded">-2</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">-1</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">0</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="button">
+                                <button class="x-button rounded">1</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">2</button>
+                            </td>
+                            <td class="button">
+                                <button class="x-button rounded">3</button>
+                            </td>
+                        </tr>
+                    </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="input-cell-l">Y:</td>
+                    <td id="y-cell">
+                        <input class="input-select" id="y-select" name="y-select" placeholder="From -3 to 3"
+                               required type="text"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="input-cell-l">R:</td>
+                    <td id="r-cell">
+                        <div class="toleft">
+                            <label for="r1">1</label>
+                            <input class="input-select" id="r1" name="r-select" required type="radio" value="1"/>
+                        </div>
+                        <div class="toleft">
+                            <label for="r1.5">1.5</label>
+                            <input class="input-select" id="r1.5" name="r-select" required type="radio"
+                                   value="1.5"/>
+                        </div>
+                        <div class="toleft">
+                            <label for="r2">2</label>
+                            <input class="input-select" id="r2" name="r-select" required type="radio" value="2"/>
+                        </div>
+                        <div class="toleft">
+                            <label for="r2.5">2.5</label>
+                            <input class="input-select" id="r2.5" name="r-select" required type="radio"
+                                   value="2.5"/>
+                        </div>
+                        <div class="toleft">
+                            <label for="r3">3</label>
+                            <input class="input-select" id="r3" name="r-select" required type="radio" value="3"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <button id="submit-button">Вычислить</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <div id="graph"></div>
+        </td>
+        <td>
+            <table id="result-table">
+                <tr>
+                    <td>X</td>
+                    <td>Y</td>
+                    <td>R</td>
+                    <td>Результат</td>
+                    <td>Дата/Время</td>
+                    <td>Время вычисления</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+
+
+<script src="scripts/dataProcess.js"></script>
+<script src="scripts/graph.js"></script>
 </body>
 </html>
