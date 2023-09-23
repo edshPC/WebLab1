@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function checkHit($x, $y, $r): bool {
     if($x > 0) {
@@ -37,8 +38,11 @@ if(validate($x, $y, $r)) {
     $result = 'Ошибка';
 }
 
-date_default_timezone_set("Europe/Moscow");
-$datetime = date("Y-m-d H:i:s");
+date_default_timezone_set("UTC");
+$datetime = date("Y-m-d H:i:s O");
 $time = round((microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"]) * 1e3, 3);
 
-echo "$x;$y;$r;$result;$datetime;$time"."ns";
+$out = "$x;$y;$r;$result;$datetime;$time"."ns";
+
+$_SESSION['table'][] = $out;
+echo $out;

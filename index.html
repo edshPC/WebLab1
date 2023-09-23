@@ -49,6 +49,7 @@
             margin: 0;
         }
 
+
         button, .box, #result-table tr td {
             color: #c9d1d9;
             background-color: #21262d;
@@ -56,7 +57,11 @@
             border: 2px solid rgba(240, 246, 252, 0.1);
         }
 
-        button:hover {
+        button {
+            cursor: pointer;
+        }
+
+        button:hover, #y-select:focus, .r-select label:hover:before {
             background-color: #30363d;
             border-color: #8b949e;
         }
@@ -103,6 +108,29 @@
             height: 30px;
         }
 
+        .r-select input[type=radio] {
+            display: none;
+        }
+
+        .r-select label:before {
+            content: "";
+            display: inline-block;
+            width: 13px;
+            height: 13px;
+            background-color: #21262d;
+            position: inherit;
+            margin: 0 5px 0 2px;
+            padding: 0;
+            border: 2px solid rgba(240, 246, 252, 0.1);
+            border-radius: 1em;
+            cursor: pointer;
+        }
+
+        .r-select input[type=radio]:checked + label:before {
+            background-color: #43735d;
+        }
+
+
         #result-table {
             display: block;
             width: fit-content;
@@ -120,7 +148,7 @@
         }
 
         .red-border {
-            border: 2px solid red;
+            border: 2px solid #8c2121;
             border-radius: 0.4em;
         }
         .x-button.selected, #result-table .last-row-hit td {
@@ -149,7 +177,7 @@
             <div class="container">
                 <table id="input-table">
                 <tr>
-                    <td colspan="2" class="input-cell-l">Введи значения:</td>
+                    <td colspan="3" class="input-cell-l">Введи значения:</td>
                 </tr>
                 <tr>
                     <td class="input-cell-l">X:</td>
@@ -201,33 +229,38 @@
                 <tr>
                     <td class="input-cell-l">R:</td>
                     <td id="r-cell">
-                        <div class="toleft">
-                            <label for="r1">1</label>
+                        <div class="r-select">
                             <input class="input-select" id="r1" name="r-select" required type="radio" value="1"/>
+                            <label for="r1">1</label>
                         </div>
-                        <div class="toleft">
-                            <label for="r1.5">1.5</label>
+                        <div class="r-select">
                             <input class="input-select" id="r1.5" name="r-select" required type="radio"
                                    value="1.5"/>
+                            <label for="r1.5">1.5</label>
                         </div>
-                        <div class="toleft">
-                            <label for="r2">2</label>
+                        <div class="r-select">
                             <input class="input-select" id="r2" name="r-select" required type="radio" value="2"/>
+                            <label for="r2">2</label>
                         </div>
-                        <div class="toleft">
-                            <label for="r2.5">2.5</label>
+                        <div class="r-select">
                             <input class="input-select" id="r2.5" name="r-select" required type="radio"
                                    value="2.5"/>
+                            <label for="r2.5">2.5</label>
                         </div>
-                        <div class="toleft">
-                            <label for="r3">3</label>
-                            <input class="input-select" id="r3" name="r-select" required type="radio" value="3"/>
-                        </div>
+                            <div class="r-select">
+                                <input class="input-select" id="r3" name="r-select" required type="radio" value="3"/>
+                                <label for="r3">3</label>
+                            </div>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="3">
                         <button id="submit-button" class="rounded">Вычислить</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <button id="clear-button" class="rounded">Очистить</button>
                     </td>
                 </tr>
             </table>
@@ -246,7 +279,7 @@
                     <td>Y</td>
                     <td>R</td>
                     <td>Результат</td>
-                    <td>Дата/Время</td>
+                    <td>Время</td>
                     <td>Время вычисления</td>
                 </tr>
             </table>

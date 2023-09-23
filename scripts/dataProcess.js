@@ -3,11 +3,13 @@ const y_select = document.getElementById("y-select");
 const r_select = document.getElementsByName("r-select");
 const x_buttons = document.querySelectorAll(".x-button");
 const submit_button = document.getElementById("submit-button");
+const clear_button = document.getElementById("clear-button");
 const result_table = document.getElementById("result-table");
 let last_x_button, last_row;
 
 function addToTable(data) {
     let splited = data.split(';');
+    splited[4] = new Date(splited[4]).toLocaleTimeString();
     let row = result_table.insertRow();
     let cellId = 0;
     for(let str of splited) {
@@ -49,6 +51,16 @@ function checkHit(x, y, r) {
 
 }
 
+function initialize() {
+    fetch("./logic/init.php", {
+        method: 'POST'
+    }).then(r => {
+        return r.text();
+    }).then(text => {
+        if(text.length > 0) text.split('&').forEach(addToTable);
+    });
+}
+
 function onLoad(ev) {
     graphEntry();
 
@@ -87,6 +99,15 @@ function onLoad(ev) {
         makeGraph(x, y, r);
 
     });
+
+    clear_button.addEventListener("click", ev => {
+        fetch("./logic/clear.php", {
+            method: 'POST'
+        });
+        location.reload();
+    });
+
+    initialize();
 }
 
 window.addEventListener("load", onLoad);
