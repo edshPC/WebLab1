@@ -15,35 +15,50 @@
 
         body {
             font-family: sans-serif;
+            color: #c9d1d9;
             display: block;
+            background-color: #0d1117;
         }
 
-        .fill {
-            width: 100%;
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #21262d;
+            border-radius: 0.2em;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #3a424f;
+            border-radius: 0.2em;
         }
 
         .container {
-            margin-left: 0.0em;
-            display: flex;
-            gap: 10px;
-            padding: 0 4px;
-            justify-content: space-between;
+            background-color: #161b22;
+            border: 1px solid darkgray;
+            padding: 10px 20px;
+            margin: 5px 7px;
+            height: fit-content;
+            width: fit-content;
+            border-radius: 0.6em;
         }
 
-        .toright {
-            text-align: right;
-        }
-        .toleft {
-            text-align: left;
+        #main-table tr td {
+            vertical-align: top;
+            padding: 0;
+            margin: 0;
         }
 
-        button {
-            background-color: #BABABA;
+        button, .box, #result-table tr td {
+            color: #c9d1d9;
+            background-color: #21262d;
             padding: 2px;
-            border: 2px solid;
+            border: 2px solid rgba(240, 246, 252, 0.1);
         }
+
         button:hover {
-            border-color: grey;
+            background-color: #30363d;
+            border-color: #8b949e;
         }
 
         .x-button {
@@ -52,17 +67,8 @@
             position: relative;
         }
 
-        .x-button:active {
-            background-color: yellow;
-        }
-
-        .selected {
-            background-color: greenyellow;
-        }
-
-        .red-border {
-            border: 2px solid red;
-            /*background-color: red;*/
+        button:active {
+            background-color: #6b6e39;
         }
 
         .rounded {
@@ -71,44 +77,77 @@
 
         #header {
             font-family: cursive;
-            color: blue;
+            color: #d5dfe8;
             font-size: 16px;
         }
 
         #graph {
             width: 400px;
             height: 400px;
+            padding: 0;
+            margin: 10px;
+        }
+        #graph-container {
+            padding: 0;
+            border-radius: 0.2em;
+        }
+
+        #x-table tr td {
+            padding: 0;
+            margin: 0;
+        }
+
+        #y-select {
+            margin: 0 2px;
+            width: 79px;
+            height: 30px;
         }
 
         #result-table {
             display: block;
-            border: 1px solid;
+            width: fit-content;
             max-height: 400px;
             overflow-y: scroll;
         }
         #result-table tr td {
+            margin: 10px;
             padding: 0 10px;
+            width: fit-content;
+            border-radius: 0.2em;
+        }
+        #result-table #first-row td {
+            background-color: #3a424f;
         }
 
-        .input-cell-l {
-            padding: 10px;
+        .red-border {
+            border: 2px solid red;
+            border-radius: 0.4em;
+        }
+        .x-button.selected, #result-table .last-row-hit td {
+            background-color: #43735d;
+        }
+        #result-table .last-row-miss td {
+            background-color: #653b3b;
         }
 
     </style>
 </head>
 <body>
 
-<table>
+<table id="main-table">
     <tr>
-        <td class="" id="header">
-            <p>Лабораторная работа #1</p>
-            <p>Выполнил Щербинин Эдуард P3214</p>
-            <p>Вариант 2482</p>
+        <td colspan="3" id="header">
+            <div class="container">
+                <p>Лабораторная работа #1</p>
+                <p>Выполнил Щербинин Эдуард P3214</p>
+                <p>Вариант 2482</p>
+            </div>
         </td>
     </tr>
     <tr>
         <td>
-            <table id="input-table">
+            <div class="container">
+                <table id="input-table">
                 <tr>
                     <td colspan="2" class="input-cell-l">Введи значения:</td>
                 </tr>
@@ -155,7 +194,7 @@
                 <tr>
                     <td class="input-cell-l">Y:</td>
                     <td id="y-cell">
-                        <input class="input-select" id="y-select" name="y-select" placeholder="From -3 to 3"
+                        <input class="input-select rounded box" id="y-select" name="y-select" placeholder="(-3; 3)"
                                required type="text"/>
                     </td>
                 </tr>
@@ -188,17 +227,21 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button id="submit-button">Вычислить</button>
+                        <button id="submit-button" class="rounded">Вычислить</button>
                     </td>
                 </tr>
             </table>
+            </div>
         </td>
         <td>
-            <div id="graph"></div>
+            <div class="container rounded" id="graph-container">
+                <div id="graph"></div>
+            </div>
         </td>
         <td>
-            <table id="result-table">
-                <tr>
+            <div class="container">
+                <table id="result-table">
+                <tr id="first-row" class="last-row-hit">
                     <td>X</td>
                     <td>Y</td>
                     <td>R</td>
@@ -207,6 +250,7 @@
                     <td>Время вычисления</td>
                 </tr>
             </table>
+            </div>
         </td>
     </tr>
 </table>

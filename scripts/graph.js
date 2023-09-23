@@ -6,6 +6,7 @@ function graphEntry() {
         expressions: false,
         zoomFit: false,
         settingsMenu: false,
+        invertedColors: true,
         xAxisLabel: 'x',
         yAxisLabel: 'y',
         xAxisStep: 1,
@@ -15,7 +16,8 @@ function graphEntry() {
     });
 }
 
-const color = '#008cff';
+const color = '#ff7000'; //'#008cff';
+
 function makeGraph(x, y, r) {
     graph.setExpression({
         id: '1',
@@ -38,7 +40,7 @@ function makeGraph(x, y, r) {
     graph.setExpression({
         id: '4',
         latex: `(${x}, ${y})`,
-        color: 'red',
+        color: '#00bbbb',
         lines: false
     });
 

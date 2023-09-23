@@ -4,15 +4,24 @@ const r_select = document.getElementsByName("r-select");
 const x_buttons = document.querySelectorAll(".x-button");
 const submit_button = document.getElementById("submit-button");
 const result_table = document.getElementById("result-table");
-let last_x_button;
+let last_x_button, last_row;
 
 function addToTable(data) {
     let splited = data.split(';');
     let row = result_table.insertRow();
-    let cell = 0;
+    let cellId = 0;
     for(let str of splited) {
-        row.insertCell(cell++).innerHTML = str;
+        let cell = row.insertCell(cellId++);
+        cell.innerText = str;
     }
+
+    if(last_row !== undefined) {
+        last_row.className = '';
+    }
+    row.classList.add(splited[3] === 'Попал!' ? 'last-row-hit' : 'last-row-miss');
+    last_row = row;
+
+    result_table.scrollTo(0, result_table.scrollHeight);
 }
 
 function borderRed(id) {
@@ -23,13 +32,30 @@ function borderRed(id) {
     }, 1500);
 }
 
+function checkHit(x, y, r) {
+    let formData = new FormData();
+    formData.append('x', x);
+    formData.append('y', y);
+    formData.append('r', r);
+
+    fetch("./logic/checkHit.php", {
+        method: 'POST',
+        body: formData
+    }).then(r => {
+        return r.text();
+    }).then(text => {
+        addToTable(text);
+    });
+
+}
+
 function onLoad(ev) {
     graphEntry();
 
     for(let btn of x_buttons) {
         btn.addEventListener("click", ev => {
-            btn.classList.add("selected");
             if(last_x_button !== undefined) last_x_button.classList.remove("selected");
+            btn.classList.add("selected");
             last_x_button = btn;
         })
     }
@@ -43,7 +69,7 @@ function onLoad(ev) {
             x = +last_x_button.innerText;
         }
         y = +y_select.value;
-        if(y_select.value.length === 0 || Number.isNaN(y) || Math.abs(y) > 3) {
+        if(y_select.value.length === 0 || Number.isNaN(y) || Math.abs(y) >= 3) {
             borderRed("y-cell");
             correct = false;
         }
@@ -57,20 +83,7 @@ function onLoad(ev) {
 
         if(!correct) return;
 
-        let formData = new FormData();
-        formData.append('x', x);
-        formData.append('y', y);
-        formData.append('r', r);
-
-        fetch("/logic/checkHit.php", {
-            method: 'POST',
-            body: formData
-        }).then(r => {
-            return r.text();
-        }).then(text => {
-            addToTable(text);
-        });
-
+        checkHit(x, y, r);
         makeGraph(x, y, r);
 
     });
