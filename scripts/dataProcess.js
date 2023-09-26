@@ -8,19 +8,17 @@ const result_table = document.getElementById("result-table");
 let last_x_button, last_row;
 
 function addToTable(data) {
-    let splited = data.split(';');
-    splited[4] = new Date(splited[4]).toLocaleTimeString();
     let row = result_table.insertRow();
     let cellId = 0;
-    for(let str of splited) {
-        let cell = row.insertCell(cellId++);
-        cell.innerText = str;
-    }
+    row.insertCell(cellId++).innerText = data.x;
+    row.insertCell(cellId++).innerText = data.y;
+    row.insertCell(cellId++).innerText = data.r;
+    row.insertCell(cellId++).innerText = data.result;
+    row.insertCell(cellId++).innerText = new Date(data.datetime).toLocaleTimeString();
+    row.insertCell(cellId++).innerText = data.exectime + 'ns';
 
-    if(last_row !== undefined) {
-        last_row.className = '';
-    }
-    row.classList.add(splited[3] === 'Попал!' ? 'last-row-hit' : 'last-row-miss');
+    if(last_row !== undefined) last_row.className = '';
+    row.classList.add(data.result === 'Попал!' ? 'last-row-hit' : 'last-row-miss');
     last_row = row;
 
     result_table.scrollTo(0, result_table.scrollHeight);
@@ -44,9 +42,12 @@ function checkHit(x, y, r) {
         method: 'POST',
         body: formData
     }).then(r => {
-        return r.text();
-    }).then(text => {
-        addToTable(text);
+        return r.json();
+    }).then(data => {
+        if('error' in data) throw data.error;
+        addToTable(data);
+    }).catch(e => {
+        alert(`Ошибка в получении ответа: ${e}`);
     });
 
 }
@@ -55,9 +56,9 @@ function initialize() {
     fetch("./logic/init.php", {
         method: 'POST'
     }).then(r => {
-        return r.text();
-    }).then(text => {
-        if(text.length > 0) text.split('&').forEach(addToTable);
+        return r.json();
+    }).then(data => {
+        if(data.length > 0) data.forEach(addToTable);
     });
 }
 
